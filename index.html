@@ -283,7 +283,7 @@
               
                 
                 <a class="post-title-link" href="/2017/03/13/XCTest单元测试/" itemprop="url">
-                  未命名
+                  XCTest单元测试
                 </a>
               
             
@@ -309,6 +309,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS开发/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS开发</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -347,9 +369,7 @@
       
         
           
-            <hr>
-<p>title: XCTest单元测试<br>date: 2017-03-13 22:40:28<br>tags: 单元测试</p>
-<h1 id="categories-iOS开发"><a href="#categories-iOS开发" class="headerlink" title="categories: iOS开发"></a>categories: iOS开发</h1><h2 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、<font color="#228B22">概述</font></h2><p><br></p>
+            <h2 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、<font color="#228B22">概述</font></h2><p><br></p>
 <font size="3" color="black">在Xcode中新建项目的时候会默认勾选单元测试，勾选后每个XCode新建的iOS的项目中都有一个叫做”项目名Tests”的分组，这个分组里就是XCTestCase的子类，XCTest中的测试类都是继承自XCTestCase。当我们为项目增加了新的功能时，可以使用单元测试针对该模块进行测试。</font><br><br><br>## 二、<font color="#228B22">单元测试的使用</font>
 
 <font color="#228B22" size="3"><strong>1、常规测试</strong></font><br><br><br><font size="3" color="black">首先新建一个名为“MyDemo”的项目，我们会看到会自动生成如下的文件：<br><br><img src="http://www.imlifengfeng.com/blog/wp-content/uploads/2017/03/Snip20170306_5.png" alt="image1"><br><br>MyDemoTests中代码为:<br><br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"># import &lt;XCTest/XCTest.h&gt;</div><div class="line"> </div><div class="line">@interface MyDemoTests : XCTestCase</div><div class="line"> </div><div class="line">@end</div><div class="line"> </div><div class="line">@implementation MyDemoTests</div><div class="line"> </div><div class="line">- (void)setUp &#123;</div><div class="line">    [super setUp];</div><div class="line">    // Put setup code here. This method is called before the invocation of each test method in the class.</div><div class="line">&#125;</div><div class="line"> </div><div class="line">- (void)tearDown &#123;</div><div class="line">    // Put teardown code here. This method is called after the invocation of each test method in the class.</div><div class="line">    [super tearDown];</div><div class="line">&#125;</div><div class="line"> </div><div class="line">- (void)testExample &#123;</div><div class="line">    // This is an example of a functional test case.</div><div class="line">    // Use XCTAssert and related functions to verify your tests produce the correct results.</div><div class="line">&#125;</div><div class="line"> </div><div class="line">- (void)testPerformanceExample &#123;</div><div class="line">    // This is an example of a performance test case.</div><div class="line">    [self measureBlock:^&#123;</div><div class="line">        // Put the code you want to measure the time of here.</div><div class="line">    &#125;];</div><div class="line">&#125;</div><div class="line"> </div><div class="line">@end</div></pre></td></tr></table></figure><br><br>上面最重要的两个方法为setUp和tearDown，setUp方法在XCTestCase的测试方法调用之前调用。当测试全部结束之后调用tearDown方法。上面的另外两个方法是系统自动创建的功能测试用例的示例。我们可以自己创建测试方法，不过测试方法必须testXXX的格式，且不能有参数，不然不会识别为测试方法。<br><br><br><br>setUp方法可以在测试之前创建在test case方法中需要用到的一些对象等。tearDown方法则在全部的test case执行结束之后清理测试现场，释放资源删除不用的对象等。<br><br>例如，我们去除系统系统创建的两个测试用例的示例，我们自己创建一个方法：<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"># import &lt;XCTest/XCTest.h&gt;</div><div class="line"> </div><div class="line">@interface MyDemoTests : XCTestCase</div><div class="line"> </div><div class="line">@end</div><div class="line"> </div><div class="line">@implementation MyDemoTests</div><div class="line"> </div><div class="line">- (void)setUp &#123;</div><div class="line">    [super setUp];</div><div class="line">    NSLog(@&quot;setUp-----------------&quot;);</div><div class="line">&#125;</div><div class="line"> </div><div class="line">- (void)tearDown &#123;</div><div class="line">    [super tearDown];</div><div class="line">    NSLog(@&quot;tearDown-----------------&quot;);</div><div class="line">&#125;</div><div class="line"> </div><div class="line">- (void)testMyFun&#123;</div><div class="line">    NSLog(@&quot;testMyFun-----------------&quot;);</div><div class="line">&#125;</div><div class="line"> </div><div class="line">@end</div></pre></td></tr></table></figure><br><br>按快捷键Command + U进行单元测试，打印结果（去除了其他暂不关注的打印）：<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">2017-03-06 15:35:35.336 MyDemo[48088:5078800] setUp-----------------</div><div class="line">2017-03-06 15:35:35.336 MyDemo[48088:5078800] testMyFun-----------------</div><div class="line">2017-03-06 15:35:35.337 MyDemo[48088:5078800] tearDown-----------------</div></pre></td></tr></table></figure><br><br>接下来我们新建一个类MyClass，在MyClass中声明和实现一个getNum的方法，方法实现如下：<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">-(NSInteger)getNum&#123;</div><div class="line">    return 5;</div><div class="line">&#125;</div></pre></td></tr></table></figure><br><br>然后在我们MyDemoTests的testMyFun写相关单元测试代码（代码中用到了断言，断言的使用后面再讲）：<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">#import &lt;XCTest/XCTest.h&gt;</div><div class="line">#import &quot;MyClass.h&quot;</div><div class="line"> </div><div class="line">@interface MyDemoTests : XCTestCase</div><div class="line"> </div><div class="line">@end</div><div class="line"> </div><div class="line">@implementation MyDemoTests</div><div class="line"> </div><div class="line">- (void)setUp &#123;</div><div class="line">    [super setUp];</div><div class="line">    NSLog(@&quot;setUp-----------------&quot;);</div><div class="line">&#125;</div><div class="line"> </div><div class="line">- (void)tearDown &#123;</div><div class="line">    [super tearDown];</div><div class="line">    NSLog(@&quot;tearDown-----------------&quot;);</div><div class="line">&#125;</div><div class="line"> </div><div class="line">- (void)testMyFun&#123;</div><div class="line">    NSLog(@&quot;testMyFun-----------------&quot;);</div><div class="line">    </div><div class="line">    MyClass *myClass = [[MyClass alloc]init];</div><div class="line">    NSInteger num = [myClass getNum];</div><div class="line">    </div><div class="line">    XCTAssert(num &lt; 10,@&quot;num should less than 10&quot;);</div><div class="line">&#125;</div><div class="line"> </div><div class="line">@end</div></pre></td></tr></table></figure><br><br>上面加了断言，只有当num<10的使用才能通过测试，由于此时num=5，所以可以顺利通过测试。 <="" br=""><br>按快捷键Command + U进行单元测试，结果如下：<br><br><img src="http://www.imlifengfeng.com/blog/wp-content/uploads/2017/03/Snip20170306_6.png" alt="image2"><br><br>如果我们将getNum的返回结果改为15，则不会通过测试：<br><br><img src="http://www.imlifengfeng.com/blog/wp-content/uploads/2017/03/Snip20170306_7.png" alt="image3"><br><br>如果测试方法比较多的时候也可以直接点击方法后运行的图标单独测试某个方法，Command + U是全部测试：<br><br><img src="http://www.imlifengfeng.com/blog/wp-content/uploads/2017/03/Snip20170306_8.png" alt="image4"><br><br><br><br><font color="#228B22" size="3"><strong>2、性能测试</strong></font>
@@ -625,7 +645,25 @@
           
 
           
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
 
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
           
 
         </nav>
