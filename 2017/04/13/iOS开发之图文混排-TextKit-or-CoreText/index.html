@@ -1,0 +1,985 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="图文混排," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="一、概述对于目前市场上的app，社交内的比重相当大。社交属性或多或少会出现在我们的需求中，这就会涉及到表情，超链接，图片和文字的图文混编技术。下面我会从两个框架来介绍如何实现轻松的实现图文混排，当然理论需要和实践想结合，所以会给出相应的代码供学习。废话不多说，下面开始。
+二、CoreText2.1 CoreText基础首先我们要知道图文混编的原理 —— 在需要显示图片的文本位置使用特殊的字符显示，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS开发之图文混排(TextKit or CoreText)">
+<meta property="og:url" content="http://www.kiddhmh.cn/2017/04/13/iOS开发之图文混排-TextKit-or-CoreText/index.html">
+<meta property="og:site_name" content="老司机的成长之路">
+<meta property="og:description" content="一、概述对于目前市场上的app，社交内的比重相当大。社交属性或多或少会出现在我们的需求中，这就会涉及到表情，超链接，图片和文字的图文混编技术。下面我会从两个框架来介绍如何实现轻松的实现图文混排，当然理论需要和实践想结合，所以会给出相应的代码供学习。废话不多说，下面开始。
+二、CoreText2.1 CoreText基础首先我们要知道图文混编的原理 —— 在需要显示图片的文本位置使用特殊的字符显示，">
+<meta property="og:image" content="http://allluckly.cn/images/blog/tuogao/tougao42/2.jpg">
+<meta property="og:image" content="http://allluckly.cn/images/blog/tuogao/tougao42/3.jpg">
+<meta property="og:image" content="http://allluckly.cn/images/blog/tuogao/tougao42/4.jpg">
+<meta property="og:image" content="http://allluckly.cn/images/blog/tuogao/tougao42/5.jpg">
+<meta property="og:image" content="http://allluckly.cn/images/blog/tuogao/tougao42/6.jpg">
+<meta property="og:image" content="http://allluckly.cn/images/blog/tuogao/tougao42/7.jpg">
+<meta property="og:image" content="http://allluckly.cn/images/blog/tuogao/tougao42/8.gif">
+<meta property="og:image" content="http://allluckly.cn/images/blog/tuogao/tougao42/9.jpg">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/783864-c797a9dc761ed4d4.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2240549-620cc150edf5369f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://github.com/kiddhmh/Simple-Demo/tree/master/图文混排">
+<meta property="og:updated_time" content="2017-04-13T09:05:13.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS开发之图文混排(TextKit or CoreText)">
+<meta name="twitter:description" content="一、概述对于目前市场上的app，社交内的比重相当大。社交属性或多或少会出现在我们的需求中，这就会涉及到表情，超链接，图片和文字的图文混编技术。下面我会从两个框架来介绍如何实现轻松的实现图文混排，当然理论需要和实践想结合，所以会给出相应的代码供学习。废话不多说，下面开始。
+二、CoreText2.1 CoreText基础首先我们要知道图文混编的原理 —— 在需要显示图片的文本位置使用特殊的字符显示，">
+<meta name="twitter:image" content="http://allluckly.cn/images/blog/tuogao/tougao42/2.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.kiddhmh.cn/2017/04/13/iOS开发之图文混排-TextKit-or-CoreText/"/>
+
+
+
+
+
+  <title> iOS开发之图文混排(TextKit or CoreText) | 老司机的成长之路 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a20c300122449e5da05225c29cde8398";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=61290592";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">老司机的成长之路</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">没时间解释了快上车</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.kiddhmh.cn/2017/04/13/iOS开发之图文混排-TextKit-or-CoreText/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="胡明昊">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="老司机的成长之路">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS开发之图文混排(TextKit or CoreText)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-13T11:50:53+08:00">
+                2017-04-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS开发/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS开发</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/2017/04/13/iOS开发之图文混排-TextKit-or-CoreText/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/04/13/iOS开发之图文混排-TextKit-or-CoreText/" class="leancloud_visitors" data-flag-title="iOS开发之图文混排(TextKit or CoreText)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h2><p>对于目前市场上的app，社交内的比重相当大。社交属性或多或少会出现在我们的需求中，这就会涉及到表情，超链接，图片和文字的图文混编技术。下面我会从两个框架来介绍如何实现轻松的实现图文混排，当然理论需要和实践想结合，所以会给出相应的代码供学习。废话不多说，下面开始。</p>
+<h2 id="二、CoreText"><a href="#二、CoreText" class="headerlink" title="二、CoreText"></a>二、CoreText</h2><h3 id="2-1-CoreText基础"><a href="#2-1-CoreText基础" class="headerlink" title="2.1 CoreText基础"></a>2.1 CoreText基础</h3><p>首先我们要知道图文混编的原理 —— 在需要显示图片的文本位置使用特殊的字符显示，然后在绘制这些文本的将图片直接绘制显示在这些特殊文本的位置上。因此，图文混编的任务离不开一个重要的角色——NSAttributedString</p>
+<p>这个对比NSString多了各种类似粗斜体、下划线、背景色等文本属性的NSAttributedString，每个属性都有其对应的字符区域。这意味着你可以将前几个字符设置为粗体，而后面的字符为斜体且带着下划线。在iOS6之后已经有能够设置控件的富文本属性了，但如果想要实现我们的图文混编，我们需要使用coreText来对属性字符串进行绘制。在coreText绘制字符的过程中，最重要的两个概念是CTFramesetterRef跟CTFrameRef ，他们的概念如下：</p>
+<p><img src="http://allluckly.cn/images/blog/tuogao/tougao42/2.jpg" alt=""></p>
+<p>在创建好要绘制的富文本字符串之后，我们用它来创建一个CTFramesetterRef变量，这个变量可以看做是CTFrameRef 的一个工厂，用来辅助我们创建后者。在传入一个CGPathRef的变量之后我们可以创建相应的CTFrameRef然后将富文本渲染在对应的路径区域内。这段创建代码如下(由于coreText基于C语言的库，所有对象都需要我们手动释放内存)：<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">CGContextRef</span> ctx = <span class="built_in">UIGraphicsGetCurrentContext</span>();</div><div class="line"><span class="built_in">NSAttributedString</span> * content = [[<span class="built_in">NSAttributedString</span> alloc] initWithString: <span class="string">@"这是一个测试的富文本，这是一个测试的富文本"</span>];</div><div class="line"><span class="built_in">CTFramesetterRef</span> framesetter = <span class="built_in">CTFramesetterCreateWithAttributedString</span>((<span class="built_in">CFAttributedStringRef</span>)content);</div><div class="line"><span class="built_in">CGMutablePathRef</span> paths = <span class="built_in">CGPathCreateMutable</span>();</div><div class="line"><span class="built_in">CGPathAddRect</span>(paths, <span class="literal">NULL</span>, <span class="built_in">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">100</span>, <span class="number">100</span>));</div><div class="line"><span class="built_in">CTFrameRef</span> frame = <span class="built_in">CTFramesetterCreateFrame</span>(framesetter, <span class="built_in">CFRangeMake</span>(<span class="number">0</span>, content), paths, <span class="literal">NULL</span>);</div><div class="line"><span class="built_in">CTFrameDraw</span>(frame, ctx);        <span class="comment">//绘制文字</span></div><div class="line"></div><div class="line"><span class="comment">// 释放内存</span></div><div class="line"><span class="built_in">CFRelease</span>(paths);</div><div class="line"><span class="built_in">CFRelease</span>(frame);</div><div class="line"><span class="built_in">CFRelease</span>(framesetter);</div></pre></td></tr></table></figure></p>
+<p>除此之外，每一个创建的CTFrameRef中存在一个或者更多的CTLineRef变量，这个变量表示绘制文本中的每一行文本。每个CTLineRef变量中存在一个或者更多个CTRunRef变量，在文本绘制过程中，我们并不关心CTLineRef或者CTRunRef变量具体对应的是什么字符，这些工作在更深层次系统已经帮我们完成了创建。创建过程的图如下：</p>
+<p><img src="http://allluckly.cn/images/blog/tuogao/tougao42/3.jpg" alt=""></p>
+<p>通过CTFrameRef获取文本内容的行以及字符串组的代码如下：<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">CFArrayRef</span> lines = <span class="built_in">CTFrameGetLines</span>(frame);</div><div class="line"><span class="built_in">CGPoint</span> lineOrigins[<span class="built_in">CFArrayGetCount</span>(lines)];</div><div class="line"><span class="built_in">CTFrameGetLineOrigins</span>(_frame, <span class="built_in">CFRangeMake</span>(<span class="number">0</span>, <span class="number">0</span>), lineOrigins);</div><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> idx = <span class="number">0</span>; idx &lt; <span class="built_in">CFArrayGetCount</span>(lines); idx++) &#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"第%d行起始坐标%@"</span>, idx, <span class="built_in">NSStringFromCGPoint</span>(lineOrigins[idx]));</div><div class="line">    <span class="built_in">CTLineRef</span> line = <span class="built_in">CFArrayGetValueAtIndex</span>(lines, idx);</div><div class="line">    <span class="built_in">CFArrayRef</span> runs = <span class="built_in">CTLineGetGlyphRuns</span>(line);</div><div class="line">    <span class="built_in">CGFloat</span> runAscent;</div><div class="line">    <span class="built_in">CGFloat</span> runDescent;</div><div class="line"></div><div class="line">    <span class="built_in">CGFloat</span> runWidth = <span class="built_in">CTRunGetTypographicBounds</span>(run, <span class="built_in">CFRangeMake</span>(<span class="number">0</span>, <span class="number">0</span>), &amp;runAscent, &amp;runDescent, <span class="literal">NULL</span>);</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"第%d个字符组的宽度为%f"</span>, idx, runWidth);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>图文混编的做法就是在我们需要插入表情的富文本位置插入一个空字符占位，然后实现自定义的CTRunDelegateCallbacks来设置这个占位字符的宽高位置信息等，为占位字符添加一个自定义的文本属性用来存储对应的表情图片名字。接着我们通过CTFrameRef获取渲染的文本行以及文本字符，判断是否存在存储的表情图片，如果是就将图片绘制在占位字符的位置上。</p>
+<p><img src="http://allluckly.cn/images/blog/tuogao/tougao42/4.jpg" alt=""></p>
+<p>下面代码是创建一个CTRunDelegate的代码，用来设置这个字符组的大小尺寸：<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">void</span> RunDelegateDeallocCallback(<span class="keyword">void</span> * refCon) &#123;&#125;</div><div class="line"></div><div class="line"><span class="built_in">CGFloat</span> RunDelegateGetAscentCallback(<span class="keyword">void</span> * refCon)</div><div class="line">&#123;</div><div class="line">    <span class="keyword">return</span> <span class="number">20</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">CGFloat</span> RunDelegateGetDescentCallback(<span class="keyword">void</span> * refCon)</div><div class="line">&#123;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">CGFloat</span> RunDelegateGetWidthCallback(<span class="keyword">void</span> * refCon)</div><div class="line">&#123;</div><div class="line">    <span class="keyword">return</span> <span class="number">20</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">CTRunDelegateCallbacks</span> imageCallbacks;</div><div class="line">imageCallbacks.version = kCTRunDelegateVersion1;</div><div class="line">imageCallbacks.dealloc = RunDelegateDeallocCallback;</div><div class="line">imageCallbacks.getWidth = RunDelegateGetWidthCallback;</div><div class="line">imageCallbacks.getAscent = RunDelegateGetAscentCallback;</div><div class="line">imageCallbacks.getDescent = RunDelegateGetDescentCallback;</div><div class="line"><span class="built_in">CTRunDelegateRef</span> runDelegate = <span class="built_in">CTRunDelegateCreate</span>(&amp;imageCallbacks, <span class="string">"这是回调函数的参数"</span>);</div></pre></td></tr></table></figure></p>
+<h3 id="2-2-文字排版"><a href="#2-2-文字排版" class="headerlink" title="2.2 文字排版"></a>2.2 文字排版</h3><p>文字排版属于又臭又长的理论概念，但是对于我们更好的使用coreText框架，这些理论知识却是不可缺少的。</p>
+<ul>
+<li><p><font size="3"><strong>字体</strong></font><br><br>与我们所认知的字体不同的是，在计算机中字体指的是一系列的相同样式、相同大小的字形的集合，即14号宋体跟15号宋体在计算机看来是两种字体。而我们所说的字体指 宋体 / 楷体 这些字体类型</p>
+</li>
+<li><p><font size="3"><strong>字符与字形</strong></font><br><br><br>文本排版的过程实际上是从字符到字形之间的转换。字符表示的是文字本身的信息意义，而字形表示的是这个文字的图形表现格式。同一个字符由于大小、体形之间的差别，存在着不同字形。由于连写的存在，多个字符可能只对应一个字形： </p>
+<p><img src="http://allluckly.cn/images/blog/tuogao/tougao42/5.jpg" alt=""></p>
+</li>
+<li><p><font size="3"><strong>字形描述集</strong></font><br><br><br>描述了字形表现的多个参数，包括：<br>1、边框(Bounding box)：一个假想的边框，尽可能的将整个字形容纳<br>2、基线(Baseline)：一条假想的参考线，以此为基础渲染字形。正常来说字母x、m、s最下方的位置就是参考线所在y坐标<br>3、基础原点(Origin)：基线最左侧的坐标点<br>4、行间距(Leading)：行与行之间的间距<br>5、字间距(Kerning)：字与字之间的间距<br>6、上行高度(Ascent)：字形最高点到基线的距离，正数。同一行取字符最大的上行高度为该行的上行高度<br>7、下行高度(Descent)：字形最低点到基线的距离，负数。同一行取字符最小的下行高度为该行的下行高度</p>
+</li>
+</ul>
+<p><img src="http://allluckly.cn/images/blog/tuogao/tougao42/6.jpg" alt=""></p>
+<p>下图中绿色线条表示基线，黄色线条表示下行高度，绿色线条到红框最顶部的距离为上行高度，而黄色线条到红框底部的距离为行间距。因此行高的计算公式是<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">lineHeight = Ascent +	Descent	+ Leading</div></pre></td></tr></table></figure></p>
+<p><img src="http://allluckly.cn/images/blog/tuogao/tougao42/7.jpg" alt=""></p>
+<h3 id="2-3-图文混排"><a href="#2-3-图文混排" class="headerlink" title="2.3 图文混排"></a>2.3 图文混排</h3><p>前文讲了诸多的理论知识，终于来到了实战的阶段，先放上本文的<a href="https://github.com/kiddhmh/Simple-Demo/tree/master/图文混排" target="_blank" rel="external">demo地址</a>和效果图：</p>
+<p><img src="http://allluckly.cn/images/blog/tuogao/tougao42/8.gif" alt=""></p>
+<p>由于富文本的绘制需要用到一个CGContextRef类型的上下文，那么创建一个继承自UIView的自定义控件并且在drawRect: 方法中完成富文本绘制是最方便的方式，我给自己创建的类命名为MHTextView<br><br>在CoreText绘制文本的时候，坐标系的原点位于左下角，因此我们需要在绘制文字之前对坐标系进行一次翻转。并且在绘制富文本之前，我们需要构建好渲染的富文本并在方法里返回：<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">NSMutableAttributedString</span> *)buildAttributedString</div><div class="line">&#123;</div><div class="line">    <span class="comment">//创建富文本，并且将超链接文本设置为蓝色+下划线</span></div><div class="line">    <span class="built_in">NSMutableAttributedString</span> * content = [[<span class="built_in">NSMutableAttributedString</span> alloc] initWithString: <span class="string">@"这是一个富文本内容"</span>];</div><div class="line">    <span class="built_in">NSString</span> * hyperlinkText = <span class="string">@"@这是链接"</span>;</div><div class="line">    <span class="built_in">NSRange</span> range = <span class="built_in">NSMakeRange</span>(content.length, hyperlinkText.length);</div><div class="line">    [content appendAttributedString: [[<span class="built_in">NSAttributedString</span> alloc] initWithString: hyperlinkText]];</div><div class="line">    [content addAttributes: @&#123; <span class="built_in">NSForegroundColorAttributeName</span>: [<span class="built_in">UIColor</span> blueColor] &#125; range: range];</div><div class="line">    [content addAttributes: @&#123; <span class="built_in">NSUnderlineStyleAttributeName</span>: @(<span class="built_in">NSUnderlineStyleSingle</span>) &#125; range: range];</div><div class="line">    </div><div class="line">    <span class="comment">//创建CTRunDelegateRef并设置回调函数</span></div><div class="line">    <span class="built_in">CTRunDelegateCallbacks</span> imageCallbacks;</div><div class="line">    imageCallbacks.version = kCTRunDelegateVersion1;</div><div class="line">    imageCallbacks.dealloc = RunDelegateDeallocCallback;</div><div class="line">    imageCallbacks.getWidth = RunDelegateGetWidthCallback;</div><div class="line">    imageCallbacks.getAscent = RunDelegateGetAscentCallback;</div><div class="line">    imageCallbacks.getDescent = RunDelegateGetDescentCallback;</div><div class="line">    <span class="built_in">NSString</span> * imageName = <span class="string">@"emoji"</span>;</div><div class="line">    <span class="built_in">CTRunDelegateRef</span> runDelegate = <span class="built_in">CTRunDelegateCreate</span>(&amp;imageCallbacks, (__bridge <span class="keyword">void</span> *)imageName);</div><div class="line"></div><div class="line">    <span class="comment">//插入空白表情占位符</span></div><div class="line">    <span class="built_in">NSMutableAttributedString</span> * imageAttributedString = [[<span class="built_in">NSMutableAttributedString</span> alloc] initWithString: <span class="string">@" "</span>];</div><div class="line">    [imageAttributedString addAttribute: (<span class="built_in">NSString</span> *)kCTRunDelegateAttributeName value: (__bridge <span class="keyword">id</span>)runDelegate range: <span class="built_in">NSMakeRange</span>(<span class="number">0</span>, <span class="number">1</span>)];</div><div class="line">    [imageAttributedString addAttribute: <span class="string">@"imageNameKey"</span> value: imageName range: <span class="built_in">NSMakeRange</span>(<span class="number">0</span>, <span class="number">1</span>)];</div><div class="line">    [content appendAttributedString: imageAttributedString];</div><div class="line">    <span class="built_in">CFRelease</span>(runDelegate);</div><div class="line">    <span class="keyword">return</span> content;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)drawRect: (<span class="built_in">CGRect</span>)rect</div><div class="line">&#123;</div><div class="line">    <span class="comment">//获取图形上下文并且翻转坐标系</span></div><div class="line">    <span class="built_in">CGContextRef</span> ctx = <span class="built_in">UIGraphicsGetCurrentContext</span>();</div><div class="line">    <span class="built_in">CGContextSetTextMatrix</span>(ctx, <span class="built_in">CGAffineTransformIdentity</span>);</div><div class="line">    <span class="built_in">CGContextConcatCTM</span>(ctx, <span class="built_in">CGAffineTransformMake</span>(<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="keyword">self</span>.bounds.size.height));</div><div class="line">    <span class="built_in">NSMutableAttributedString</span> * content = [<span class="keyword">self</span> buildAttributedString];</div><div class="line">    </div><div class="line">    <span class="comment">//创建CTFramesetterRef和CTFrameRef变量</span></div><div class="line">    <span class="built_in">CTFramesetterRef</span> framesetter = <span class="built_in">CTFramesetterCreateWithAttributedString</span>((<span class="built_in">CFAttributedStringRef</span>)content);</div><div class="line">    <span class="built_in">CGMutablePathRef</span> paths = <span class="built_in">CGPathCreateMutable</span>();</div><div class="line">    <span class="built_in">CGPathAddRect</span>(paths, <span class="literal">NULL</span>, <span class="keyword">self</span>.bounds);</div><div class="line">    <span class="built_in">CTFrameRef</span> frame = <span class="built_in">CTFramesetterCreateFrame</span>(framesetter, <span class="built_in">CFRangeMake</span>(<span class="number">0</span>, content.length), paths, <span class="literal">NULL</span>);</div><div class="line">    <span class="built_in">CTFrameDraw</span>(frame, ctx);</div><div class="line"></div><div class="line">    <span class="comment">//遍历文本行以及CTRunRef，将表情文本对应的表情图片绘制到图形上下文</span></div><div class="line">    <span class="built_in">CFArrayRef</span> lines = <span class="built_in">CTFrameGetLines</span>(_frame);</div><div class="line">    <span class="built_in">CGPoint</span> lineOrigins[<span class="built_in">CFArrayGetCount</span>(lines)];</div><div class="line">    <span class="built_in">CTFrameGetLineOrigins</span>(frame, <span class="built_in">CFRangeMake</span>(<span class="number">0</span>, <span class="number">0</span>), lineOrigins);</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> idx = <span class="number">0</span>; idx &lt; <span class="built_in">CFArrayGetCount</span>(lines); idx++) &#123;</div><div class="line">        <span class="built_in">CTLineRef</span> line = <span class="built_in">CFArrayGetValueAtIndex</span>(lines, idx);</div><div class="line">        <span class="built_in">CGPoint</span> lineOrigin = lineOrigins[idx];</div><div class="line">        <span class="built_in">CFArrayRef</span> runs = <span class="built_in">CTLineGetGlyphRuns</span>(line);</div><div class="line"></div><div class="line">        <span class="comment">//遍历字符组</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> index = <span class="number">0</span>; index &lt; <span class="built_in">CFArrayGetCount</span>(runs); index++) &#123;</div><div class="line">            <span class="built_in">CGFloat</span> runAscent;</div><div class="line">            <span class="built_in">CGFloat</span> runDescent;</div><div class="line">            <span class="built_in">CGPoint</span> lineOrigin = lineOrigins[idx];</div><div class="line">        </div><div class="line">            <span class="built_in">CTRunRef</span> run = <span class="built_in">CFArrayGetValueAtIndex</span>(runs, index);</div><div class="line">            <span class="built_in">CGRect</span> runRect;</div><div class="line">            runRect.size.width = <span class="built_in">CTRunGetTypographicBounds</span>(run, <span class="built_in">CFRangeMake</span>(<span class="number">0</span>, <span class="number">0</span>), &amp;runAscent, &amp;runDescent, <span class="literal">NULL</span>);</div><div class="line">            runRect = <span class="built_in">CGRectMake</span>(lineOrigin.x + <span class="built_in">CTLineGetOffsetForStringIndex</span>(line, <span class="built_in">CTRunGetStringRange</span>(run).location, <span class="literal">NULL</span>), lineOrigin.y - runDescent, runRect.size.width, runAscent + runDescent);</div><div class="line">        </div><div class="line">            <span class="comment">//查找表情文本替换表情视图</span></div><div class="line">            <span class="built_in">NSDictionary</span> * attributes = (<span class="built_in">NSDictionary</span> *)<span class="built_in">CTRunGetAttributes</span>(run);</div><div class="line">            <span class="built_in">NSString</span> * imageName = attributes[<span class="string">@"imageNameKey"</span>];</div><div class="line">            <span class="keyword">if</span> (imageName) &#123;</div><div class="line">                <span class="built_in">UIImage</span> * image = [<span class="built_in">UIImage</span> imageNamed: imageName];</div><div class="line">                <span class="keyword">if</span> (image) &#123;</div><div class="line">                    <span class="built_in">CGRect</span> imageDrawRect;</div><div class="line">                    <span class="built_in">CGFloat</span> imageSize = ceil(runRect.size.height);</div><div class="line">                    imageDrawRect.size = <span class="built_in">CGSizeMake</span>(imageSize, imageSize);</div><div class="line">                    imageDrawRect.origin.x = runRect.origin.x + lineOrigin.x;</div><div class="line">                    imageDrawRect.origin.y = lineOrigin.y;</div><div class="line">                    <span class="built_in">CGContextDrawImage</span>(ctx, imageDrawRect, image.CGImage);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">CFRelease</span>(paths);</div><div class="line">    <span class="built_in">CFRelease</span>(frame);</div><div class="line">    <span class="built_in">CFRelease</span>(framesetter);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>代码运行之后，代码的运行图应该是这样：<br><img src="http://allluckly.cn/images/blog/tuogao/tougao42/9.jpg" alt=""></p>
+<p>现在富文本像模像样了，但我们怎样才能在点击超链接文本的时候发生响应回调呢？像图片那样判断点击是否处在rect范围内的判断是不可取的，因为超链接文本可能刚好处在换行的位置，从而存在多个rect。对此，CoreText同样提供了一个函数<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">CTLineGetStringIndexForPosition</span>(<span class="built_in">CTLineRef</span>, <span class="built_in">CGPoint</span>)</div></pre></td></tr></table></figure></p>
+<p>方法来获取点击坐标位于文本行的字符的下标位置。但在此之前，我们必须先获取点击点所在的文本行数位置，为了达到获取文本行的目的，绘制文本的CTFrameRef变量必须保存下来，因此我定义了一个实例变量存储文本渲染中生成的CTFrameRef。同样的，对于超链接文本所在的位置，我们应该把这个位置转换成字符串作为key值，文本对应的链接作为value值存到一个实例字典中。<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">MHTextView</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">CTFrameRef</span> _frame;</div><div class="line">    <span class="built_in">NSMutableDictionary</span> * _textTouchMapper;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="built_in">NSMutableAttributedString</span> *)buildattrinbutedstring</div><div class="line">&#123;</div><div class="line">    <span class="comment">//do something...</span></div><div class="line">    _textTouchMapper[<span class="built_in">NSStringFromRange</span>(range)] = <span class="string">@"https://www.baidu.com"</span>;</div><div class="line">    <span class="comment">//do something...</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)drawRect: (<span class="built_in">CGRect</span>)rect</div><div class="line">&#123;</div><div class="line">    <span class="comment">//do something...</span></div><div class="line">    _frame = frame;</div><div class="line">    <span class="comment">//do something...</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)touchesEnded: (<span class="built_in">NSSet</span>&lt;<span class="built_in">UITouch</span> *&gt; *)touches withEvent: (<span class="built_in">UIEvent</span> *)event</div><div class="line">&#123;</div><div class="line">    <span class="built_in">CGPoint</span> touchPoint = [touches.anyObject locationInView: <span class="keyword">self</span>];</div><div class="line">    <span class="built_in">CFArrayRef</span> lines = <span class="built_in">CTFrameGetLines</span>(_frame);</div><div class="line">    <span class="built_in">CGPoint</span> origins[<span class="built_in">CFArrayGetCount</span>(lines)];</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> idx = <span class="number">0</span>; idx &lt; <span class="built_in">CFArrayGetCount</span>(lines); idx++) &#123;</div><div class="line">        <span class="built_in">CGPoint</span> origin = origins[idx];</div><div class="line">        <span class="built_in">CGPathRef</span> path = <span class="built_in">CTFrameGetPath</span>(_frame);</div><div class="line">        <span class="built_in">CGRect</span> rect = <span class="built_in">CGPathGetBoundingBox</span>(path);</div><div class="line">    </div><div class="line">        <span class="comment">//将坐标点更改为左上角坐标系原点的坐标</span></div><div class="line">        <span class="built_in">CGFloat</span> y = rect.origin.y + rect.size.height - origin.y;</div><div class="line">        <span class="keyword">if</span> (touchPoint.y &lt;= y &amp;&amp; (touchPoint.x &gt;= origin.x &amp;&amp; touchPoint.x &lt;= rect.origin.x + rect.size.width)) &#123;</div><div class="line">            line = <span class="built_in">CFArrayGetValueAtIndex</span>(lines, idx);</div><div class="line">            lineOrigin = origin;</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"点击第%d行"</span>, idx);</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (line == <span class="literal">NULL</span>) &#123; <span class="keyword">return</span>; &#125;</div><div class="line">    touchPoint.x -= lineOrigin.x;</div><div class="line">    <span class="built_in">CFIndex</span> index = <span class="built_in">CTLineGetStringIndexForPosition</span>(line, touchPoint);</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (<span class="built_in">NSString</span> * textRange <span class="keyword">in</span> _textTouchMapper) &#123;</div><div class="line">        <span class="built_in">NSRange</span> range = <span class="built_in">NSRangeFromString</span>(textRange);</div><div class="line">        <span class="keyword">if</span> (index &gt;= range.location &amp;&amp; index &lt;= range.location + range.length) &#123;</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"点击了图片链接：%@"</span>, _textTouchMapper[textRange]);</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span> 现在运行代码，看看点击富文本的超链接时，控制台是不是输出了点击图片链接了呢？</div></pre></td></tr></table></figure></p>
+<h3 id="2-4-进一步封装"><a href="#2-4-进一步封装" class="headerlink" title="2.4 进一步封装"></a>2.4 进一步封装</h3><p>我们已经完成了富文本的实现，下一步是思考如何从外界传入文本内容和对应关系，然后显示。因此，我们需要在头文件中提供两个字典类型的属性，分别用于使用者传入文本-超链接以及文本-表情图片的对应关系：<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">MHTextView</span> : <span class="title">UIView</span></span></div><div class="line"><span class="comment">/**</span></div><div class="line"> 显示文本（所有的链接文本、图片名称都应该放到这里面）</div><div class="line"> */</div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> * text;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> 超链接文本映射</div><div class="line"> key值为文本，value是地址链接。比如@&#123; @"百度": @"https://www.baidu.com" &#125;</div><div class="line"> */</div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">NSDictionary</span> * hyperlinkMapper;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> emoji表情映射</div><div class="line"> key值为图片文本，value为图片名称。比如@&#123; @"[emoji11]": @"emoji11" &#125;</div><div class="line"> */</div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">NSDictionary</span> * emojiTextMapper;</div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure></p>
+<p>当然，这时候buildAttributedString也应该进行相应的修改，由于富文本中可能存在多个表情，因此需要把往富文本中插入表情占位符的逻辑封装出来。另一方面，把富文本对象content作为类成员变量来使用，会让代码更方便：<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*!</span></div><div class="line"> *  @brief 在富文本中插入表情占位符，然后设置好属性</div><div class="line"> *</div><div class="line"> *  @param imageName  表情图片的名称</div><div class="line"> *  @param emojiRange  表情文本在富文本中的位置，用于替换富文本</div><div class="line"> */</div><div class="line">- (<span class="keyword">void</span>)insertEmojiAttributed: (<span class="built_in">NSString</span> *)imageName emojiRange: (<span class="built_in">NSRange</span>)emojiRange</div><div class="line">&#123;</div><div class="line">    <span class="built_in">CTRunDelegateCallbacks</span> imageCallbacks;</div><div class="line">    imageCallbacks.version = kCTRunDelegateVersion1;</div><div class="line">    imageCallbacks.dealloc = RunDelegateDeallocCallback;</div><div class="line">    imageCallbacks.getWidth = RunDelegateGetWidthCallback;</div><div class="line">    imageCallbacks.getAscent = RunDelegateGetAscentCallback;</div><div class="line">    imageCallbacks.getDescent = RunDelegateGetDescentCallback;</div><div class="line"></div><div class="line">    <span class="comment">/*!</span></div><div class="line">     *  @brief 插入图片属性文本</div><div class="line">     */</div><div class="line">    <span class="built_in">CTRunDelegateRef</span> runDelegate = <span class="built_in">CTRunDelegateCreate</span>(&amp;imageCallbacks, (__bridge <span class="keyword">void</span> *)imageName);</div><div class="line">    <span class="built_in">NSMutableAttributedString</span> * imageAttributedString = [[<span class="built_in">NSMutableAttributedString</span> alloc] initWithString: <span class="string">@" "</span>];</div><div class="line">    [imageAttributedString addAttribute: (<span class="built_in">NSString</span> *)kCTRunDelegateAttributeName value: (__bridge <span class="keyword">id</span>)runDelegate range: <span class="built_in">NSMakeRange</span>(<span class="number">0</span>, <span class="number">1</span>)];</div><div class="line">    [imageAttributedString addAttribute: LXDEmojiImageNameKey value: imageName range: <span class="built_in">NSMakeRange</span>(<span class="number">0</span>, <span class="number">1</span>)];</div><div class="line">    [_content deleteCharactersInRange: emojiRange];</div><div class="line">    [_content insertAttributedString: imageAttributedString atIndex: emojiRange.location];</div><div class="line">    <span class="built_in">CFRelease</span>(runDelegate);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在buildAttributedString方法也增加了根据传入的两个字典进行富文本字符替换的逻辑。其中表情文本替换应该放在超链接文本替换之前——因为表情文本最终替换成一个空格字符串，但是表情文本的长度往往总是大于1。先替换表情文本就不会导致超链接文本查找中的位置出错：<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)buildAttributedString</div><div class="line">&#123;</div><div class="line">    _content = [[<span class="built_in">NSMutableAttributedString</span> alloc] initWithString: _text attributes: <span class="keyword">self</span>.textAttributes];</div><div class="line">    <span class="comment">/*!</span></div><div class="line">     *  @brief 获取所有转换emoji表情的文本位置</div><div class="line">     */</div><div class="line">    <span class="keyword">for</span> (<span class="built_in">NSString</span> * emojiText <span class="keyword">in</span> <span class="keyword">self</span>.emojiTextMapper) &#123;</div><div class="line">        <span class="built_in">NSRange</span> range = [_content.string rangeOfString: emojiText];</div><div class="line">        <span class="keyword">while</span> (range.location != <span class="built_in">NSNotFound</span>) &#123;</div><div class="line">            [<span class="keyword">self</span> insertEmojiAttributed: <span class="keyword">self</span>.emojiTextMapper[emojiText] emojiRange: range];</div><div class="line">            range = [_content.string rangeOfString: emojiText];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/*!</span></div><div class="line">     *  @brief 获取所有转换超链接的文本位置</div><div class="line">     */</div><div class="line">    <span class="keyword">for</span> (<span class="built_in">NSString</span> * hyperlinkText <span class="keyword">in</span> <span class="keyword">self</span>.hyperlinkMapper) &#123;</div><div class="line">        <span class="built_in">NSRange</span> range = [_content.string rangeOfString: hyperlinkText];</div><div class="line">        <span class="keyword">while</span> (range.location != <span class="built_in">NSNotFound</span>) &#123;</div><div class="line">            [<span class="keyword">self</span>.textTouchMapper setValue: <span class="keyword">self</span>.hyperlinkMapper[hyperlinkText] forKey: <span class="built_in">NSStringFromRange</span>(range)];</div><div class="line">            [_content addAttributes: @&#123; <span class="built_in">NSForegroundColorAttributeName</span>: [<span class="built_in">UIColor</span> blueColor] &#125; range: range];</div><div class="line">            [_content addAttributes: @&#123; <span class="built_in">NSUnderlineStyleAttributeName</span>: @(<span class="built_in">NSUnderlineStyleSingle</span>) &#125; range: range];</div><div class="line">            range = [_content.string rangeOfString: hyperlinkText];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>当然了，如果你乐意的话，还可以顺带的增加一下文本换行类型等属性的设置：<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*!</span></div><div class="line"> *  @brief 设置字体属性</div><div class="line"> */</div><div class="line"><span class="built_in">CTParagraphStyleSetting</span> styleSetting;</div><div class="line"><span class="built_in">CTLineBreakMode</span> lineBreak = kCTLineBreakByWordWrapping;</div><div class="line">styleSetting.spec = kCTParagraphStyleSpecifierLineBreakMode;</div><div class="line">styleSetting.value = &amp;lineBreak;</div><div class="line">styleSetting.valueSize = <span class="keyword">sizeof</span>(<span class="built_in">CTLineBreakMode</span>);</div><div class="line"><span class="built_in">CTParagraphStyleSetting</span> settings[] = &#123; styleSetting &#125;;</div><div class="line"><span class="built_in">CTParagraphStyleRef</span> style = <span class="built_in">CTParagraphStyleCreate</span>(settings, <span class="number">1</span>);</div><div class="line"><span class="built_in">NSMutableDictionary</span> * attributes = @&#123;</div><div class="line">                                     (<span class="keyword">id</span>)kCTParagraphStyleAttributeName: (<span class="keyword">id</span>)style</div><div class="line">                                     &#125;.mutableCopy;</div><div class="line">[_content addAttributes: attributes range: <span class="built_in">NSMakeRange</span>(<span class="number">0</span>, _content.length)];</div><div class="line"><span class="built_in">CTFontRef</span> font = <span class="built_in">CTFontCreateWithName</span>((<span class="built_in">CFStringRef</span>)[<span class="built_in">UIFont</span> systemFontOfSize: <span class="number">16</span>].fontName, <span class="number">16</span>, <span class="literal">NULL</span>);</div><div class="line">[_content addAttributes: @&#123; (<span class="keyword">id</span>)kCTFontAttributeName: (__bridge <span class="keyword">id</span>)font &#125; range: <span class="built_in">NSMakeRange</span>(<span class="number">0</span>, _content.length)];</div><div class="line"><span class="built_in">CFRelease</span>(font);</div><div class="line"><span class="built_in">CFRelease</span>(style);</div></pre></td></tr></table></figure></p>
+<p>由于富文本的渲染流程不会因为富文本内容变化而变化，所以drawRect:内的逻辑几乎没有任何改变。但是同样的，如果你需要拥有点击表情的事件，那么我们同样需要像超链接文本实现的方式一样增加一个用来判断是否点击在表情frame里面的工具，将表情的rect作为key，表情图片名字作为value，我把这个字典命名为emojiTouchMapper。此外，前文说过CoreText的坐标系跟常规坐标系是相反的，即使我们在drawRect:开头翻转了坐标系，在获取这些文本坐标时，仍然是按照左下角坐标系计算的。因此如果不做适当处理，那么在点击的时候就没办法按照正常的frame来判断是否处于点击范围内。因此我们需要在遍历文本行之前声明一个存储文本内容最顶部的y坐标变量，在遍历完成之后用这个变量依次和存储的表情视图进行坐标计算，从而存储正确的frame<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)drawRect: (<span class="built_in">CGRect</span>)rect</div><div class="line">&#123;</div><div class="line">    <span class="comment">//do something...</span></div><div class="line">     <span class="built_in">CGRect</span> imageDrawRect;</div><div class="line">     <span class="built_in">CGFloat</span> imageSize = ceil(runRect.size.height);</div><div class="line">     imageDrawRect.size = <span class="built_in">CGSizeMake</span>(imageSize, imageSize);</div><div class="line">     imageDrawRect.origin.x = runRect.origin.x + lineOrigin.x;</div><div class="line">     imageDrawRect.origin.y = lineOrigin.y - lineDescent;</div><div class="line">     <span class="built_in">CGContextDrawImage</span>(ctx, imageDrawRect, image.CGImage);</div><div class="line"></div><div class="line">     imageDrawRect.origin.y = topPoint - imageDrawRect.origin.y;</div><div class="line">     <span class="keyword">self</span>.emojiTouchMapper[<span class="built_in">NSStringFromCGRect</span>(imageDrawRect)] = imageName;</div><div class="line">    <span class="comment">//do something...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>写完上面的代码之后，自定义的富文本视图就已经完成了，最后需要实现的是点击结束时判断点击位置是否处在表情视图或者超链接文本上，然后进行相应的回调处理。这里使用的是代理方式回调：<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)touchesEnded: (<span class="built_in">NSSet</span>&lt;<span class="built_in">UITouch</span> *&gt; *)touches withEvent: (<span class="built_in">UIEvent</span> *)event</div><div class="line">&#123;</div><div class="line">    <span class="built_in">CGPoint</span> touchPoint = [touches.anyObject locationInView: <span class="keyword">self</span>];</div><div class="line">    <span class="built_in">CFArrayRef</span> lines = <span class="built_in">CTFrameGetLines</span>(_frame);</div><div class="line">    <span class="built_in">CGPoint</span> origins[<span class="built_in">CFArrayGetCount</span>(lines)];</div><div class="line">    <span class="built_in">CTFrameGetLineOrigins</span>(_frame, <span class="built_in">CFRangeMake</span>(<span class="number">0</span>, <span class="number">0</span>), origins);</div><div class="line">    <span class="built_in">CTLineRef</span> line = <span class="literal">NULL</span>;</div><div class="line">    <span class="built_in">CGPoint</span> lineOrigin = <span class="built_in">CGPointZero</span>;</div><div class="line"></div><div class="line">    <span class="comment">//查找点击坐标所在的文本行</span></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> idx = <span class="number">0</span>; idx &lt; <span class="built_in">CFArrayGetCount</span>(lines); idx++) &#123;</div><div class="line">        <span class="built_in">CGPoint</span> origin = origins[idx];</div><div class="line">        <span class="built_in">CGPathRef</span> path = <span class="built_in">CTFrameGetPath</span>(_frame);</div><div class="line">        <span class="built_in">CGRect</span> rect = <span class="built_in">CGPathGetBoundingBox</span>(path);</div><div class="line"></div><div class="line">        <span class="comment">//转换点击坐标</span></div><div class="line">        <span class="built_in">CGFloat</span> y = rect.origin.y + rect.size.height - origin.y;</div><div class="line">        <span class="keyword">if</span> (touchPoint.y &lt;= y &amp;&amp; (touchPoint.x &gt;= origin.x &amp;&amp; touchPoint.x &lt;= rect.origin.x + rect.size.width)) &#123;</div><div class="line">            line = <span class="built_in">CFArrayGetValueAtIndex</span>(lines, idx);</div><div class="line">            lineOrigin = origin;</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"点击第%d行"</span>, idx);</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (line == <span class="literal">NULL</span>) &#123; <span class="keyword">return</span>; &#125;</div><div class="line">    touchPoint.x -= lineOrigin.x;</div><div class="line">    <span class="built_in">CFIndex</span> index = <span class="built_in">CTLineGetStringIndexForPosition</span>(line, touchPoint);</div><div class="line"></div><div class="line">    <span class="comment">//判断是否点击超链接文本</span></div><div class="line">    <span class="keyword">for</span> (<span class="built_in">NSString</span> * textRange <span class="keyword">in</span> <span class="keyword">self</span>.textTouchMapper) &#123;</div><div class="line">        <span class="built_in">NSRange</span> range = <span class="built_in">NSRangeFromString</span>(textRange);</div><div class="line">        <span class="keyword">if</span> (index &gt;= range.location &amp;&amp; index &lt;= range.location + range.length) &#123;</div><div class="line">            <span class="keyword">if</span> ([_delegate respondsToSelector: <span class="keyword">@selector</span>(textView:didSelectedHyperlink:)]) &#123;</div><div class="line">                [_delegate textView: <span class="keyword">self</span> didSelectedHyperlink: <span class="keyword">self</span>.textTouchMapper[textRange]];</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//判断是否点击表情</span></div><div class="line">    <span class="keyword">if</span> (!_emojiUserInteractionEnabled) &#123; <span class="keyword">return</span>; &#125;</div><div class="line">    <span class="keyword">for</span> (<span class="built_in">NSString</span> * rectString <span class="keyword">in</span> <span class="keyword">self</span>.emojiTouchMapper) &#123;</div><div class="line">        <span class="built_in">CGRect</span> textRect = <span class="built_in">CGRectFromString</span>(rectString);</div><div class="line">        <span class="keyword">if</span> (<span class="built_in">CGRectContainsPoint</span>(textRect, touchPoint)) &#123;</div><div class="line">            <span class="keyword">if</span> ([_delegate respondsToSelector: <span class="keyword">@selector</span>(textView:didSelectedEmoji:)]) &#123;</div><div class="line">                [_delegate textView: <span class="keyword">self</span> didSelectedEmoji: <span class="keyword">self</span>.emojiTouchMapper[rectString]];</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>按照上面的代码完成之后，我们实现了一个富文本控件，我用下面的代码测试这个图文混编：<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">MHTextView * textView = [[MHTextView alloc] initWithFrame: <span class="built_in">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">200</span>, <span class="number">300</span>)];</div><div class="line">textView.delegate = <span class="keyword">self</span>;</div><div class="line">[<span class="keyword">self</span>.view addSubview: textView];</div><div class="line">textView.emojiUserInteractionEnabled = <span class="literal">YES</span>;</div><div class="line">textView.center = <span class="keyword">self</span>.view.center;</div><div class="line">textView.emojiTextMapper = @&#123;</div><div class="line">                             <span class="string">@"[emoji]"</span>: <span class="string">@"emoji"</span></div><div class="line">                             &#125;;</div><div class="line">textView.hyperlinkMapper = @&#123;</div><div class="line">                             <span class="string">@"@百度"</span>: <span class="string">@"https://www.baidu.com"</span>,</div><div class="line">                             <span class="string">@"@腾讯"</span>: <span class="string">@"https://www.qq.com"</span>,</div><div class="line">                             <span class="string">@"@谷歌"</span>: <span class="string">@"https://www.google.com"</span>,</div><div class="line">                             <span class="string">@"@脸书"</span>: <span class="string">@"https://www.facebook.com"</span>,</div><div class="line">                             &#125;;</div><div class="line">textView.text = <span class="string">@"很久很久以前[emoji]，在一个群里，生活着@百度、@腾讯这样的居民，后来，一个[emoji]叫做@谷歌的人入侵了这个村庄，他的同伙@脸书让整个群里变得淫荡无比。从此[emoji]，迎来了污妖王的时代。污妖王，我当定了！[emoji]"</span>;</div></pre></td></tr></table></figure></p>
+<p>运行效果：<br><img src="http://upload-images.jianshu.io/upload_images/783864-c797a9dc761ed4d4.gif?imageMogr2/auto-orient/strip" alt=""></p>
+<h2 id="三、TextKit"><a href="#三、TextKit" class="headerlink" title="三、TextKit"></a>三、TextKit</h2><p>使用CoreText来实现图文混编十分的强大，但同样带来了更多的代码，更复杂的逻辑。在iOS7之后苹果推出了TextKit框架，基于CoreText进行的高级封装无疑带来了更简洁的代码。</p>
+<h3 id="3-1-TextKit类结构"><a href="#3-1-TextKit类结构" class="headerlink" title="3.1 TextKit类结构"></a>3.1 TextKit类结构</h3><p>可能概览一个系统最好的方法就是画一幅图了，这是UIKit文本系统 - TextKit的简图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2240549-620cc150edf5369f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h3 id="3-2-实战演练"><a href="#3-2-实战演练" class="headerlink" title="3.2 实战演练"></a>3.2 实战演练</h3><p>理论的东西就不多说了，网上这方面的知识很多，也可以直接去苹果官网看。下面直接上代码，写个Demo，看看实战中如何使用。</p>
+<p>使用TextKit 接管Label 的底层实现, 绘制 textStorage 的文本内容(提示：UILabel 默认不能实现垂直顶部对齐，使用textKit可以做到)<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">MHLabel</span> ()</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> 属性文本存储</div><div class="line"> */</div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>,<span class="keyword">strong</span>) <span class="built_in">NSTextStorage</span> *textStorage;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> 负责文本布局</div><div class="line"> */</div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>,<span class="keyword">strong</span>) <span class="built_in">NSLayoutManager</span> *layoutManager;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> 文本绘制区域</div><div class="line"> */</div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>,<span class="keyword">strong</span>) <span class="built_in">NSTextContainer</span> *container;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> 返回textStorage 中高度URL range 数组</div><div class="line"> */</div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>,<span class="keyword">strong</span>) <span class="built_in">NSMutableArray</span> *urlRanges;</div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">MHLabel</span></span></div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)setMhText:(<span class="built_in">NSString</span> *)mhText &#123;</div><div class="line">    _mhText = mhText;</div><div class="line">    [<span class="keyword">self</span> prepareTextContent];</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">- (<span class="built_in">NSMutableArray</span> *)urlRanges &#123;</div><div class="line">    <span class="keyword">if</span> (!_urlRanges) &#123;</div><div class="line">        _urlRanges = [<span class="built_in">NSMutableArray</span> array];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> _urlRanges;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">instancetype</span>)initWithFrame:(<span class="built_in">CGRect</span>)frame &#123;</div><div class="line">    <span class="keyword">self</span> = [<span class="keyword">super</span> initWithFrame:frame];</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>) &#123;</div><div class="line">        [<span class="keyword">self</span> prepareTextSystem];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">instancetype</span>)initWithCoder:(<span class="built_in">NSCoder</span> *)aDecoder &#123;</div><div class="line">    <span class="keyword">self</span> = [<span class="keyword">super</span> initWithCoder:aDecoder];</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>) &#123;</div><div class="line">        [<span class="keyword">self</span> prepareTextSystem];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)layoutSubviews &#123;</div><div class="line">    [<span class="keyword">super</span> layoutSubviews];</div><div class="line">    <span class="comment">//指定绘制文本的区域</span></div><div class="line">    <span class="keyword">self</span>.container.size = <span class="keyword">self</span>.bounds.size;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> 绘制</div><div class="line"> */</div><div class="line">- (<span class="keyword">void</span>)drawTextInRect:(<span class="built_in">CGRect</span>)rect &#123;</div><div class="line">    <span class="built_in">NSRange</span> range = <span class="built_in">NSMakeRange</span>(<span class="number">0</span>, <span class="keyword">self</span>.textStorage.length);</div><div class="line">    </div><div class="line">    <span class="comment">//绘制背景 在iOS 中绘制巩固走类似油画，后绘制的内容，会把之前绘制的内容覆盖</span></div><div class="line">    [<span class="keyword">self</span>.layoutManager drawBackgroundForGlyphRange:range atPoint:<span class="built_in">CGPointZero</span>];</div><div class="line">    </div><div class="line">    <span class="comment">//绘制 Glyphs 字形</span></div><div class="line">    [<span class="keyword">self</span>.layoutManager drawGlyphsForGlyphRange:range atPoint:<span class="built_in">CGPointZero</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line">    准备文本系统</div><div class="line"> */</div><div class="line">- (<span class="keyword">void</span>)prepareTextSystem &#123;</div><div class="line">    </div><div class="line">    <span class="comment">// 初始化属性</span></div><div class="line">    <span class="keyword">self</span>.textStorage = [[<span class="built_in">NSTextStorage</span> alloc] init];</div><div class="line">    <span class="keyword">self</span>.layoutManager = [[<span class="built_in">NSLayoutManager</span> alloc] init];</div><div class="line">    <span class="keyword">self</span>.container = [[<span class="built_in">NSTextContainer</span> alloc] init];</div><div class="line">    </div><div class="line">    <span class="comment">// 开启用户交互</span></div><div class="line">    <span class="keyword">self</span>.userInteractionEnabled = <span class="literal">YES</span>;</div><div class="line">    </div><div class="line">    <span class="comment">// 准备文本内容</span></div><div class="line">    [<span class="keyword">self</span> prepareTextContent];</div><div class="line">    <span class="comment">// 设置对象的关系</span></div><div class="line">    [<span class="keyword">self</span>.textStorage addLayoutManager:<span class="keyword">self</span>.layoutManager];</div><div class="line">    [<span class="keyword">self</span>.layoutManager addTextContainer:<span class="keyword">self</span>.container];</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line">    准备文本内容 - 使用textStorage 接管label 的内容</div><div class="line"> */</div><div class="line">- (<span class="keyword">void</span>)prepareTextContent &#123;</div><div class="line">    </div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>.mhText) &#123;</div><div class="line">        [<span class="keyword">self</span>.textStorage setAttributedString:[[<span class="built_in">NSAttributedString</span> alloc] initWithString:<span class="keyword">self</span>.mhText]];</div><div class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">self</span>.attributedText) &#123;</div><div class="line">        [<span class="keyword">self</span>.textStorage setAttributedString:<span class="keyword">self</span>.attributedText];</div><div class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">self</span>.text) &#123;</div><div class="line">        [<span class="keyword">self</span>.textStorage setAttributedString:[[<span class="built_in">NSAttributedString</span> alloc] initWithString:<span class="keyword">self</span>.text]];</div><div class="line">    &#125;<span class="keyword">else</span> &#123;</div><div class="line">        [<span class="keyword">self</span>.textStorage setAttributedString:[[<span class="built_in">NSAttributedString</span> alloc] initWithString:<span class="string">@""</span>]];</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">//1.正则表达式</span></div><div class="line">    <span class="built_in">NSString</span> *patern = <span class="string">@"[a-zA-Z]*://[a-zA-Z0-9/\\.]*"</span>;</div><div class="line">    <span class="built_in">NSRegularExpression</span> *regx = [[<span class="built_in">NSRegularExpression</span> alloc] initWithPattern:patern options:<span class="number">0</span> error:<span class="literal">nil</span>];</div><div class="line">    </div><div class="line">    <span class="comment">//多重匹配</span></div><div class="line">    <span class="built_in">NSArray</span> *matches = [regx matchesInString:<span class="keyword">self</span>.textStorage.string options:<span class="number">0</span> range:<span class="built_in">NSMakeRange</span>(<span class="number">0</span>, <span class="keyword">self</span>.textStorage.length)];</div><div class="line">    </div><div class="line">    <span class="comment">//遍历数组,生成range 数组</span></div><div class="line">    <span class="keyword">for</span> (<span class="built_in">NSTextCheckingResult</span> *result <span class="keyword">in</span> matches) &#123;</div><div class="line">        [<span class="keyword">self</span>.urlRanges addObject:<span class="built_in">NSStringFromRange</span>(result.range)];</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>,<span class="keyword">self</span>.urlRanges);</div><div class="line">    </div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>.urlRanges.count == <span class="number">0</span>) &#123; <span class="keyword">return</span>; &#125;</div><div class="line">    </div><div class="line">    <span class="comment">//遍历范围数组，设置url 文字的属性</span></div><div class="line">    <span class="keyword">for</span> (<span class="built_in">NSString</span> *rangeStr <span class="keyword">in</span> <span class="keyword">self</span>.urlRanges) &#123;</div><div class="line">        <span class="built_in">NSRange</span> range = <span class="built_in">NSRangeFromString</span>(rangeStr);</div><div class="line">        [<span class="keyword">self</span>.textStorage addAttributes:@&#123;</div><div class="line">                                          <span class="built_in">NSForegroundColorAttributeName</span>: [<span class="built_in">UIColor</span> redColor],</div><div class="line">                                          <span class="built_in">NSBackgroundColorAttributeName</span>: [<span class="built_in">UIColor</span> groupTableViewBackgroundColor]</div><div class="line">                                          &#125; range:range];</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>使用正则表达式 过滤textStrorage 中的url 范围数组<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)prepareTextContent &#123;</div><div class="line">    </div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>.mhText) &#123;</div><div class="line">        [<span class="keyword">self</span>.textStorage setAttributedString:[[<span class="built_in">NSAttributedString</span> alloc] initWithString:<span class="keyword">self</span>.mhText]];</div><div class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">self</span>.attributedText) &#123;</div><div class="line">        [<span class="keyword">self</span>.textStorage setAttributedString:<span class="keyword">self</span>.attributedText];</div><div class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">self</span>.text) &#123;</div><div class="line">        [<span class="keyword">self</span>.textStorage setAttributedString:[[<span class="built_in">NSAttributedString</span> alloc] initWithString:<span class="keyword">self</span>.text]];</div><div class="line">    &#125;<span class="keyword">else</span> &#123;</div><div class="line">        [<span class="keyword">self</span>.textStorage setAttributedString:[[<span class="built_in">NSAttributedString</span> alloc] initWithString:<span class="string">@""</span>]];</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">//1.正则表达式</span></div><div class="line">    <span class="built_in">NSString</span> *patern = <span class="string">@"[a-zA-Z]*://[a-zA-Z0-9/\\.]*"</span>;</div><div class="line">    <span class="built_in">NSRegularExpression</span> *regx = [[<span class="built_in">NSRegularExpression</span> alloc] initWithPattern:patern options:<span class="number">0</span> error:<span class="literal">nil</span>];</div><div class="line">    </div><div class="line">    <span class="comment">//多重匹配</span></div><div class="line">    <span class="built_in">NSArray</span> *matches = [regx matchesInString:<span class="keyword">self</span>.textStorage.string options:<span class="number">0</span> range:<span class="built_in">NSMakeRange</span>(<span class="number">0</span>, <span class="keyword">self</span>.textStorage.length)];</div><div class="line">    </div><div class="line">    <span class="comment">//遍历数组,生成range 数组</span></div><div class="line">    <span class="keyword">for</span> (<span class="built_in">NSTextCheckingResult</span> *result <span class="keyword">in</span> matches) &#123;</div><div class="line">        [<span class="keyword">self</span>.urlRanges addObject:<span class="built_in">NSStringFromRange</span>(result.range)];</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>,<span class="keyword">self</span>.urlRanges);</div><div class="line">    </div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>.urlRanges.count == <span class="number">0</span>) &#123; <span class="keyword">return</span>; &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>使用正则表达式过滤URL 设置URL 的特殊显示<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//遍历范围数组，设置url 文字的属性</span></div><div class="line">    <span class="keyword">for</span> (<span class="built_in">NSString</span> *rangeStr <span class="keyword">in</span> <span class="keyword">self</span>.urlRanges) &#123;</div><div class="line">        <span class="built_in">NSRange</span> range = <span class="built_in">NSRangeFromString</span>(rangeStr);</div><div class="line">        [<span class="keyword">self</span>.textStorage addAttributes:@&#123;</div><div class="line">                                          <span class="built_in">NSForegroundColorAttributeName</span>: [<span class="built_in">UIColor</span> redColor],</div><div class="line">                                          <span class="built_in">NSBackgroundColorAttributeName</span>: [<span class="built_in">UIColor</span> groupTableViewBackgroundColor]</div><div class="line">                                          &#125; range:range];</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)drawTextInRect:(<span class="built_in">CGRect</span>)rect &#123;</div><div class="line">    <span class="built_in">NSRange</span> range = <span class="built_in">NSMakeRange</span>(<span class="number">0</span>, <span class="keyword">self</span>.textStorage.length);</div><div class="line">    </div><div class="line">    <span class="comment">//绘制背景 在iOS 中绘制巩固走类似油画，后绘制的内容，会把之前绘制的内容覆盖</span></div><div class="line">    [<span class="keyword">self</span>.layoutManager drawBackgroundForGlyphRange:range atPoint:<span class="built_in">CGPointZero</span>];</div><div class="line">    </div><div class="line">    <span class="comment">//绘制 Glyphs 字形</span></div><div class="line">    [<span class="keyword">self</span>.layoutManager drawGlyphsForGlyphRange:range atPoint:<span class="built_in">CGPointZero</span>];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>和URL文本交互,高亮显示<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)touchesBegan:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UITouch</span> *&gt; *)touches withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</div><div class="line">    </div><div class="line">    <span class="comment">// 获取用户点击的位置</span></div><div class="line">    <span class="built_in">CGPoint</span> point = [[touches anyObject] locationInView:<span class="keyword">self</span>];</div><div class="line">    </div><div class="line">    <span class="comment">// 获取当前点中字符的索引</span></div><div class="line">    <span class="built_in">NSUInteger</span> index = [<span class="keyword">self</span>.layoutManager glyphIndexForPoint:point inTextContainer:<span class="keyword">self</span>.container];</div><div class="line">    </div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>.urlRanges.count == <span class="number">0</span>) &#123; <span class="keyword">return</span>; &#125;</div><div class="line">    </div><div class="line">    <span class="comment">//判断 index 是否子啊urlRanges 的范围内，如果在就高亮</span></div><div class="line">    <span class="keyword">for</span> (<span class="built_in">NSString</span> *rangeStr <span class="keyword">in</span> <span class="keyword">self</span>.urlRanges) &#123;</div><div class="line">        <span class="built_in">NSRange</span> range = <span class="built_in">NSRangeFromString</span>(rangeStr);</div><div class="line">        <span class="keyword">if</span> (<span class="built_in">NSLocationInRange</span>(index, range)) &#123;</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"高亮显示"</span>);</div><div class="line">            <span class="comment">// 修改文本的字体属性</span></div><div class="line">            [<span class="keyword">self</span>.textStorage addAttributes:@&#123;</div><div class="line">                                              <span class="built_in">NSForegroundColorAttributeName</span>: [<span class="built_in">UIColor</span> blueColor]</div><div class="line">                                              &#125; range:range];</div><div class="line">            <span class="comment">// 重绘</span></div><div class="line">            [<span class="keyword">self</span> setNeedsDisplay];</div><div class="line">        &#125;<span class="keyword">else</span> &#123;</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"未检测都可用链接"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/kiddhmh/Simple-Demo/tree/master/图文混排" alt="Demo地址"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>作为实现图文混编的两个框架，哪个功能更加强大，就只能见仁见智了。高级封装的TextKit带来了简洁性，CoreText则是更灵活。不过截至文章写完为止，我还没有找到通过TextKit实现超链接文本点击响应的功能。而对于开发者而言，这两个框架都应该都去了解，才能更好的开发</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持技术分享，您的支持将鼓励我继续创作</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://raw.githubusercontent.com/kiddhmh/kiddhmh.github.io/master/images/wechat-reward-image.png" alt="胡明昊 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://raw.githubusercontent.com/kiddhmh/kiddhmh.github.io/master/images/alipay-reward-image.png" alt="胡明昊 Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/图文混排/" rel="tag"># 图文混排</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/20/Runtime入门及实战技巧/" rel="next" title="Runtime入门及实战技巧">
+                <i class="fa fa-chevron-left"></i> Runtime入门及实战技巧
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="胡明昊" />
+          <p class="site-author-name" itemprop="name">胡明昊</p>
+           
+              <p class="site-description motion-element" itemprop="description">iOS菜鸟，目前使用Swift进行开发</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/kiddhmh" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/p/1005052867969780/home?from=page_100505&mod=TAB#place" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.devtang.com" title="唐巧" target="_blank">唐巧</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://onevcat.com" title="喵神" target="_blank">喵神</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://casatwy.com" title="Casa" target="_blank">Casa</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://swift.gg" title="SwiftGG" target="_blank">SwiftGG</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.jianshu.com/u/88a056103c02" title="没故事的卓同学" target="_blank">没故事的卓同学</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、概述"><span class="nav-number">1.</span> <span class="nav-text">一、概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、CoreText"><span class="nav-number">2.</span> <span class="nav-text">二、CoreText</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-CoreText基础"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 CoreText基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-文字排版"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 文字排版</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-图文混排"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 图文混排</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-进一步封装"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 进一步封装</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、TextKit"><span class="nav-number">3.</span> <span class="nav-text">三、TextKit</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-TextKit类结构"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 TextKit类结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-实战演练"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 实战演练</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">胡明昊</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "65b755582a554e13b8b9e8b5e80d0e22",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+  
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("D0JVHwzEV8xwygvgpxOIWbtp-gzGzoHsz", "Qa42Ry6xGFkjJYMsmWv3YHOg");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
